@@ -21,6 +21,7 @@ package org.rasa.mis.user.registration;
 
 import org.rasa.mis.user.registration.beans.Card;
 import org.rasa.mis.user.registration.beans.User;
+
 import java.io.IOException;
 
 import java.sql.*;
@@ -29,7 +30,7 @@ import java.util.Properties;
 /**
  * Utils for the API
  */
-public  class ServiceUtils {
+public class ServiceUtils {
 
 
     public static final String FIELD_FIRST_NAME = "first_name";
@@ -40,8 +41,15 @@ public  class ServiceUtils {
     public static final String FIELD_NUM_POINTS = "num_points";
     public static final String FIELD_ADDRESS = "address";
     public static final String FIELD_EMAIL = "email";
+    public static final String FIELD_BANK = "bank";
+    public static final String FIELD_CARD_NO = "card_no";
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_USER_ID = "user_id";
+    public static final String FIELD_VALID_MONTH = "valid_month";
+    public static final String FIELD_VALID_YEAR = "valid_year";
 
     private static Properties dbProperties = new Properties();
+
     static {
         try {
             dbProperties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"));
@@ -62,21 +70,18 @@ public  class ServiceUtils {
         String selectQuery = "SELECT * FROM users WHERE id=" + userId;
         ResultSet resultSet = statement.executeQuery(selectQuery);
 
-        while (resultSet.next()){
-            user.setId(resultSet.getInt("id"));
+        while (resultSet.next()) {
+            user.setId(resultSet.getInt(FIELD_ID));
             user.setFirstName(resultSet.getString(FIELD_FIRST_NAME));
             user.setLastName(resultSet.getString(FIELD_LAST_NAME));
             user.setAddress(resultSet.getString(FIELD_ADDRESS));
             user.setEmail(resultSet.getString(FIELD_EMAIL));
             //user.setDateCreated(new Date(10000));
-            break;
+            return user;
         }
 
         statement.close();
         //connection.close();
-        if (user.getFirstName() != null){
-            return user;
-        }
 
         return null;
     }
@@ -90,11 +95,11 @@ public  class ServiceUtils {
         ResultSet resultSet = statement.executeQuery(selectQuery);
 
         while (resultSet.next()) {
-            card.setId(resultSet.getInt("id"));
-            card.setBank(resultSet.getString("bank"));
-            card.setCardNo(resultSet.getString("card_no"));
-            card.setValidMonth(resultSet.getInt("valid_month"));
-            card.setValidYear(resultSet.getInt("valid_year"));
+            card.setId(resultSet.getInt(FIELD_ID));
+            card.setBank(resultSet.getString(FIELD_BANK));
+            card.setCardNo(resultSet.getString(FIELD_CARD_NO));
+            card.setValidMonth(resultSet.getInt(FIELD_VALID_MONTH));
+            card.setValidYear(resultSet.getInt(FIELD_VALID_YEAR));
             break;
         }
 
@@ -115,6 +120,44 @@ public  class ServiceUtils {
                 "'" + user.getLastName() + "', " +
                 "'" + user.getAddress() + "', " +
                 "'" + user.getEmail() + "')";
+        statement.executeUpdate(insertQuery);
+    }
+
+    public static Card getCardByUserId(int userId) throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        String selectQuery = "SELECT * FROM cards WHERE user_id=" + userId;
+        ResultSet resultSet = statement.executeQuery(selectQuery);
+
+        Card card = new Card();
+        while (resultSet.next()) {
+            card.setBank(resultSet.getString(FIELD_BANK));
+            card.setCardNo(resultSet.getString(FIELD_CARD_NO));
+            card.setId(resultSet.getInt(FIELD_ID));
+            card.setUserId(resultSet.getInt(FIELD_USER_ID));
+            card.setValidMonth(resultSet.getInt(FIELD_VALID_MONTH));
+            card.setValidYear(resultSet.getInt(FIELD_VALID_YEAR));
+            return card;
+        }
+
+        return null;
+    }
+
+    public static void addCard(Card card) throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        String insertQuery = "INSERT INTO cards (" +
+                FIELD_BANK + ", " +
+                FIELD_CARD_NO + ", " +
+                FIELD_VALID_MONTH + ", " +
+                FIELD_VALID_YEAR + ", " +
+                FIELD_USER_ID + ") VALUES(" +
+                "'" + card.getBank() + "', " +
+                "'" + card.getCardNo() + "', " +
+                "'" + card.getValidMonth() + "', " +
+                "'" + card.getValidYear() + "', " +
+                "'" + card.getUserId() + "')";
+
         statement.executeUpdate(insertQuery);
     }
 }

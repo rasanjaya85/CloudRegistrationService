@@ -60,4 +60,20 @@ public class ServiceImpl implements Service{
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    public Response addCard(Card card) {
+        try {
+            int userId = card.getUserId();
+            boolean alreadyCardExistsForUser = (ServiceUtils.getCardByUserId(userId) != null);
+            if (alreadyCardExistsForUser){
+                return Response.status(Response.Status.CONFLICT).build();
+            }
+
+            ServiceUtils.addCard(card);
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

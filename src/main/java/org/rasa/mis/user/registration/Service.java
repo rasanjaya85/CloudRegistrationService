@@ -1,6 +1,7 @@
 package org.rasa.mis.user.registration;
 
 
+import org.rasa.mis.user.registration.beans.Card;
 import org.rasa.mis.user.registration.beans.User;
 
 import javax.ws.rs.*;
@@ -31,4 +32,10 @@ public interface Service {
     @Produces("application/json")
     @Path("/users")
     public Response addUser(User user);
+
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/cards")
+    public Response addCard(Card card);
 }
