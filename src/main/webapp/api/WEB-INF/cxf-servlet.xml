@@ -36,7 +36,7 @@
         </jaxrs:providers>
     </jaxrs:server>
 
-    <bean id="userServiceBean" class="org.rasa.mis.user.registration.Service"/>
+    <bean id="userServiceBean" class="org.rasa.mis.user.registration.ServiceImpl"/>
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
         <property name="supportUnwrapped" value="true"/>
         <property name="serializeAsArray" value="true"/>
