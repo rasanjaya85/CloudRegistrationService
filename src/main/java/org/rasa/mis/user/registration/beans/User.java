@@ -1,19 +1,15 @@
 package org.rasa.mis.user.registration.beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @XmlRootElement(name = "User")
-public class User {
+public class User implements Serializable{
     private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String address;
-
-    public User(String firstName, String lastName){
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     public int getId() {
         return id;

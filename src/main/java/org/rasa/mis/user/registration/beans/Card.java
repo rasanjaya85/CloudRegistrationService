@@ -1,9 +1,10 @@
 package org.rasa.mis.user.registration.beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @XmlRootElement(name = "Card")
-public class Card {
+public class Card implements Serializable{
     private int id;
     private String bank;
     private String cardNo;

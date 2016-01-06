@@ -24,10 +24,11 @@ public class Service {
     }
 
     @GET
-    @Produces("text/plain")
+    @Produces("application/json")
     @Path("/users/{param}")
     public Response getUser(@PathParam("param") String parameter) {
-        User user = new User("udara", "liyanage");
+        User user = new User();
+        user.setFirstName(parameter);
         return Response.status(200).entity(user).build();
     }
 
