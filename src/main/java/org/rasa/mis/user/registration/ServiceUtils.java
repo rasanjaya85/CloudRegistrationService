@@ -78,4 +78,19 @@ public  class ServiceUtils {
 
         return null;
     }
+
+    public static void addUser(User user) throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        String insertQuery = "INSERT INTO users (" +
+                FIELD_FIRST_NAME + ", " +
+                FIELD_LAST_NAME + ", " +
+                FIELD_ADDRESS + ", " +
+                FIELD_EMAIL + ") VALUES(" +
+                "'" + user.getFirstName() + "', " +
+                "'" + user.getLastName() + "', " +
+                "'" + user.getAddress() + "', " +
+                "'" + user.getEmail() + "')";
+        statement.executeUpdate(insertQuery);
+    }
 }
