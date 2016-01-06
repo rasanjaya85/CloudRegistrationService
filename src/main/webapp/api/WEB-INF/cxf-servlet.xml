@@ -36,55 +36,12 @@
         </jaxrs:providers>
     </jaxrs:server>
 
-    <bean id="userServiceBean" class="org.rasa.mis.user.registration.Service"/>
+    <bean id="userServiceBean" class="org.rasa.mis.user.registration.ServiceImpl"/>
     <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider">
         <property name="supportUnwrapped" value="true"/>
         <property name="serializeAsArray" value="true"/>
         <property name="dropRootElement" value="true"/>
         <property name="dropCollectionWrapperElement" value="true"/>
-        <!--<property name="arrayKeys">
-            <list>
-                <value>partitions</value>
-                <value>property</value>
-                <value>properties</value>
-                <value>hostNames</value>
-                <value>memberMap</value>
-                <value>portMapping</value>
-                <value>partitionGroup</value>
-                <value>partition</value>
-                <value>member</value>
-                <value>hostNames</value>
-                <value>portMappings</value>
-                <value>volumes</value>
-                <value>domains</value>
-                <value>kubernetesHosts</value>
-                <value>cartridges</value>
-                <value>subGroups</value>
-                <value>groups</value>
-                <value>clusters</value>
-                <value>startupOrders</value>
-                <value>childPolicies</value>
-                <value>childLevelNetworkPartition</value>
-                <value>childLevelPartitions</value>
-                <value>networkPartitions</value>
-                <value>partitions</value>
-                <value>dependencyAliases</value>
-                <value>groupInstances</value>
-                <value>clusterInstances</value>
-                <value>applicationInstances</value>
-                <value>accessUrls</value>
-                <value>kubernetesServices</value>
-                <value>publicIPs</value>
-                <value>ports</value>
-                <value>metadataKeys</value>
-                <value>networkInterfaces</value>
-                <value>iaasProvider</value>
-                <value>iaasProviders</value>
-                <value>floatingNetworks</value>
-                <value>scalingDependents</value>
-                <value>aliases</value>
-            </list>
-        </property>-->
     </bean>
     <!--
         <bean id="schemaHolder" class="org.apache.cxf.jaxrs.utils.schemas.SchemaHandler">
