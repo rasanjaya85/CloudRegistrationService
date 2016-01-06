@@ -1,18 +1,18 @@
-package example;
-import com.sun.net.httpserver.HttpServer;
+package org.rasa.mis.user.registration;
 import com.sun.jersey.api.container.httpserver.HttpServerFactory;
-import java.io.IOException;
+import com.sun.net.httpserver.HttpServer;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import java.io.IOException;
 
 /**
- * Created by chamilad on 1/6/16.
+ * User Registration Service
  */
-// The Java class will be hosted at the URI path "/helloworld"
-@Path("/helloworld")
-public class HelloWorld {
+// The Java class will be hosted at the URI path "/api"
+@Path("/api")
+public class Service {
     // The Java method will process HTTP GET requests
     @GET
     // The Java method will produce content identified by the MIME Media type "text/plain"
