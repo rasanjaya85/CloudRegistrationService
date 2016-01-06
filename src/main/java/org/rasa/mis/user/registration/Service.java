@@ -1,5 +1,6 @@
 package org.rasa.mis.user.registration;
 
+import org.rasa.mis.user.registration.beans.Card;
 import org.rasa.mis.user.registration.beans.User;
 
 import javax.ws.rs.GET;
@@ -29,14 +30,26 @@ public class Service {
     public Response getUser(@PathParam("param") String parameter) {
         User user = new User();
         user.setFirstName(parameter);
+        getUserFromDB("abc");
         return Response.status(200).entity(user).build();
     }
+
+    @GET
+    @Produces("application/json")
+    @Path("/cards/{param}")
+    public Response getCard(@PathParam("param") int id) {
+        Card card = new Card();
+        card.setId(id);
+        return Response.status(200).entity(card).build();
+    }
+
+
 
     private static void getUserFromDB(String username) {
         try
         {
             // create our mysql database connection
-            String myDriver = "org.gjt.mm.mysql.Driver";
+            String myDriver = "com.mysql.jdbc.Driver";
             String myUrl = "jdbc:mysql://localhost/userDB";
             Class.forName(myDriver);
             Connection conn = DriverManager.getConnection(myUrl, "root", "root");
@@ -44,6 +57,7 @@ public class Service {
             // our SQL SELECT query.
             // if you only need a few columns, specify them by name instead of using "*"
             String query = "SELECT * FROM users";
+            System.out.println(query);
 
             // create the java statement
             Statement st = conn.createStatement();
@@ -69,7 +83,7 @@ public class Service {
         }
         catch (Exception e)
         {
-            System.err.println("Got an exception! ");
+            System.err.println(e);
             System.err.println(e.getMessage());
         }
     }
