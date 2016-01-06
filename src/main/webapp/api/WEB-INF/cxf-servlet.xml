@@ -31,6 +31,9 @@
         <jaxrs:serviceBeans>
             <ref bean="userServiceBean"/>
         </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <ref bean="jsonProvider"/>
+        </jaxrs:providers>
     </jaxrs:server>
 
     <bean id="userServiceBean" class="org.rasa.mis.user.registration.Service"/>
