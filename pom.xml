@@ -2,16 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!--<parent>-->
-    <!--<groupId>org.rasa</groupId>-->
-    <!--<artifactId>wso2</artifactId>-->
-    <!--<version>1</version>-->
-    <!--</parent>-->
 
     <groupId>org.rasa.mis</groupId>
     <artifactId>cloudregservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
     <name>Cloud Registration Service Sample</name>
     <description>Sample for Exploitable App Setup</description>
 
@@ -31,7 +26,7 @@
         </repository>
     </repositories>
 
-    <build>
+    <!--<build>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -48,13 +43,35 @@
                 </configuration>
             </plugin>
         </plugins>
+    </build>-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/webapp/api</directory>
+                        </resource>
+                    </webResources>
+                    <warName>api</warName>
+                    <attachClasses>true</attachClasses>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <dependencies>
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>1.19</version>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-bundle</artifactId>
+            <scope>provided</scope>
+            <version>2.7.7</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -62,10 +79,6 @@
             <version>2.0.1</version>
         </dependency>
     </dependencies>
-
-    <!--<modules>-->
-        <!--<module>UserRegistration</module>-->
-    <!--</modules>-->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

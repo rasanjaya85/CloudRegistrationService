@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 /**
  * User Registration Service
  */
-@Path("/api")
+@Path("/")
 public class Service {
 
     @GET
