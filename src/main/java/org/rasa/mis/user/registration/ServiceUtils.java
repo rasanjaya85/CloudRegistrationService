@@ -19,21 +19,40 @@
 
 package org.rasa.mis.user.registration;
 
+import org.rasa.mis.user.registration.beans.User;
+
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * Utils for the API
  */
 public class ServiceUtils {
 
-    private static void getUserFromDB(String username) {
+    public static final String FIELD_FIRST_NAME = "first_name";
+    public static final String FIELD_LAST_NAME = "last_name";
+    public static final String
+            FIELD_DATE_CREATED = "date_created";
+    public static final String FIELD_IS_ADMIN = "is_admin";
+    public static final String FIELD_NUM_POINTS = "num_points";
+    public static final String FIELD_ADDRESS = "address";
+    public static final String FIELD_EMAIL = "email";
+
+    private static Properties dbProperties = new Properties();
+    static {
+        try {
+            dbProperties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getUserFromDB(String username) {
         try
         {
             // create our mysql database connection
-            String myDriver = "com.mysql.jdbc.Driver";
-            String myUrl = "jdbc:mysql://localhost/userDB";
-            Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "root");
+            Connection conn = getConnection();
 
             // our SQL SELECT query.
             // if you only need a few columns, specify them by name instead of using "*"
@@ -49,11 +68,11 @@ public class ServiceUtils {
             while (rs.next())
             {
                 int id = rs.getInt("id");
-                String firstName = rs.getString("first_name");
-                String lastName = rs.getString("last_name");
-                Date dateCreated = rs.getDate("date_created");
-                boolean isAdmin = rs.getBoolean("is_admin");
-                int numPoints = rs.getInt("num_points");
+                String firstName = rs.getString(FIELD_FIRST_NAME);
+                String lastName = rs.getString(FIELD_LAST_NAME);
+                Date dateCreated = rs.getDate(FIELD_DATE_CREATED);
+                boolean isAdmin = rs.getBoolean(FIELD_IS_ADMIN);
+                int numPoints = rs.getInt(FIELD_NUM_POINTS);
 
                 // print the results
                 System.out.format("%s, %s, %s, %s, %s, %s\n", id, firstName, lastName, dateCreated, isAdmin, numPoints);
@@ -66,5 +85,34 @@ public class ServiceUtils {
             System.err.println(e);
             System.err.println(e.getMessage());
         }
+    }
+
+    private static Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName(dbProperties.getProperty("db_driver"));
+        return DriverManager.getConnection(dbProperties.getProperty("db_url"), dbProperties.getProperty("db_username"), dbProperties.getProperty("db_password"));
+    }
+
+    public static User getUserById(int userId) throws SQLException, ClassNotFoundException {
+        User user = new User();
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        String selectQuery = "SELECT * FROM users WHERE id=" + userId;
+        ResultSet resultSet = statement.executeQuery(selectQuery);
+
+        while (resultSet.next()){
+            user.setId(resultSet.getInt("id"));
+            user.setFirstName(resultSet.getString(FIELD_FIRST_NAME));
+            user.setLastName(resultSet.getString(FIELD_LAST_NAME));
+            user.setAddress(resultSet.getString(FIELD_ADDRESS));
+            user.setEmail(resultSet.getString(FIELD_EMAIL));
+            break;
+        }
+
+        statement.close();
+        if (user.getFirstName() != null){
+            return user;
+        }
+
+        return null;
     }
 }

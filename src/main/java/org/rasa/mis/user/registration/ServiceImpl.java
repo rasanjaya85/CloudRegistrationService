@@ -14,9 +14,21 @@ public class ServiceImpl implements Service{
         return Response.status(200).entity(output).build();
     }
 
-    public Response getUser(String parameter) {
-        User user = new User();
-        user.setFirstName(parameter);
-        return Response.status(200).entity(user).build();
+    public Response getUser(int userId) {
+        try {
+            User retrievedUser = ServiceUtils.getUserById(userId);
+            if (retrievedUser == null){
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            return Response.status(Response.Status.OK).entity(retrievedUser).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    public Response addUser(User user) {
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }

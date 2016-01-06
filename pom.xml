@@ -58,6 +58,10 @@
                             <!-- this is relative to the pom.xml directory -->
                             <directory>src/main/webapp/api</directory>
                         </resource>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/resources</directory>
+                        </resource>
                     </webResources>
                     <warName>api</warName>
                     <attachClasses>true</attachClasses>

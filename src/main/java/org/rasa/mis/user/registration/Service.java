@@ -1,10 +1,9 @@
 package org.rasa.mis.user.registration;
 
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import org.rasa.mis.user.registration.beans.User;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 /**
@@ -20,6 +19,11 @@ public interface Service {
     @GET
     @Produces("application/json")
     @Path("/users/{param}")
+    public Response getUser(@PathParam("param") int parameter);
 
-    public Response getUser(@PathParam("param") String parameter);
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    @Path("/users")
+    public Response addUser(User user);
 }
