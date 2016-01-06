@@ -47,6 +47,17 @@ public class ServiceImpl implements Service{
     }
 
     public Response addUser(User user) {
-        return Response.status(Response.Status.NOT_FOUND).build();
+        try {
+            boolean alreadyExists = (ServiceUtils.getUserById (user.getId()) != null);
+            if (alreadyExists){
+                return Response.status(Response.Status.CONFLICT).build();
+            }
+
+            ServiceUtils.addUser(user);
+            return Response.status(Response.Status.OK).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

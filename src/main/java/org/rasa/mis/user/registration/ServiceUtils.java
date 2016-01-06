@@ -81,14 +81,15 @@ public  class ServiceUtils {
         return null;
     }
 
-    public static Card getCardbyID(int id) throws ClassNotFoundException, SQLException{
+
+    public static Card getCardbyID(int id) throws ClassNotFoundException, SQLException {
         Card card = new Card();
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
         String selectQuery = "SELECT * FROM cards WHERE id=" + id;
         ResultSet resultSet = statement.executeQuery(selectQuery);
 
-        while (resultSet.next()){
+        while (resultSet.next()) {
             card.setId(resultSet.getInt("id"));
             card.setBank(resultSet.getString("bank"));
             card.setCardNo(resultSet.getString("card_no"));
@@ -100,5 +101,20 @@ public  class ServiceUtils {
         statement.close();
         //connection.close();
         return card;
+    }
+
+    public static void addUser(User user) throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        String insertQuery = "INSERT INTO users (" +
+                FIELD_FIRST_NAME + ", " +
+                FIELD_LAST_NAME + ", " +
+                FIELD_ADDRESS + ", " +
+                FIELD_EMAIL + ") VALUES(" +
+                "'" + user.getFirstName() + "', " +
+                "'" + user.getLastName() + "', " +
+                "'" + user.getAddress() + "', " +
+                "'" + user.getEmail() + "')";
+        statement.executeUpdate(insertQuery);
     }
 }
