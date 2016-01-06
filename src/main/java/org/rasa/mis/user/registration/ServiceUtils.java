@@ -22,7 +22,7 @@ package org.rasa.mis.user.registration;
 import java.sql.*;
 
 /**
- * Created by chamilad on 1/7/16.
+ * Utils for the API
  */
 public class ServiceUtils {
 
