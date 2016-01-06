@@ -20,15 +20,16 @@
 package org.rasa.mis.user.registration;
 
 import org.rasa.mis.user.registration.beans.User;
-
 import java.io.IOException;
+
 import java.sql.*;
 import java.util.Properties;
 
 /**
  * Utils for the API
  */
-public class ServiceUtils {
+public  class ServiceUtils {
+
 
     public static final String FIELD_FIRST_NAME = "first_name";
     public static final String FIELD_LAST_NAME = "last_name";
@@ -45,45 +46,6 @@ public class ServiceUtils {
             dbProperties.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("config.properties"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static void getUserFromDB(String username) {
-        try
-        {
-            // create our mysql database connection
-            Connection conn = getConnection();
-
-            // our SQL SELECT query.
-            // if you only need a few columns, specify them by name instead of using "*"
-            String query = "SELECT * FROM users";
-
-            // create the java statement
-            Statement st = conn.createStatement();
-
-            // execute the query, and get a java resultset
-            ResultSet rs = st.executeQuery(query);
-
-            // iterate through the java resultset
-            while (rs.next())
-            {
-                int id = rs.getInt("id");
-                String firstName = rs.getString(FIELD_FIRST_NAME);
-                String lastName = rs.getString(FIELD_LAST_NAME);
-                Date dateCreated = rs.getDate(FIELD_DATE_CREATED);
-                boolean isAdmin = rs.getBoolean(FIELD_IS_ADMIN);
-                int numPoints = rs.getInt(FIELD_NUM_POINTS);
-
-                // print the results
-                System.out.format("%s, %s, %s, %s, %s, %s\n", id, firstName, lastName, dateCreated, isAdmin, numPoints);
-            }
-            st.close();
-            //conn.close();
-        }
-        catch (Exception e)
-        {
-            System.err.println(e);
-            System.err.println(e.getMessage());
         }
     }
 
@@ -109,6 +71,7 @@ public class ServiceUtils {
         }
 
         statement.close();
+        connection.close();
         if (user.getFirstName() != null){
             return user;
         }
