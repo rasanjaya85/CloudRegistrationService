@@ -19,6 +19,7 @@
 
 package org.rasa.mis.user.registration;
 
+import org.rasa.mis.user.registration.beans.Card;
 import org.rasa.mis.user.registration.beans.User;
 import java.io.IOException;
 
@@ -67,15 +68,37 @@ public  class ServiceUtils {
             user.setLastName(resultSet.getString(FIELD_LAST_NAME));
             user.setAddress(resultSet.getString(FIELD_ADDRESS));
             user.setEmail(resultSet.getString(FIELD_EMAIL));
+            //user.setDateCreated(new Date(10000));
             break;
         }
 
         statement.close();
-        connection.close();
+        //connection.close();
         if (user.getFirstName() != null){
             return user;
         }
 
         return null;
+    }
+
+    public static Card getCardbyID(int id) throws ClassNotFoundException, SQLException{
+        Card card = new Card();
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        String selectQuery = "SELECT * FROM cards WHERE id=" + id;
+        ResultSet resultSet = statement.executeQuery(selectQuery);
+
+        while (resultSet.next()){
+            card.setId(resultSet.getInt("id"));
+            card.setBank(resultSet.getString("bank"));
+            card.setCardNo(resultSet.getString("card_no"));
+            card.setValidMonth(resultSet.getInt("valid_month"));
+            card.setValidYear(resultSet.getInt("valid_year"));
+            break;
+        }
+
+        statement.close();
+        //connection.close();
+        return card;
     }
 }

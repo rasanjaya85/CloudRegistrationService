@@ -1,8 +1,10 @@
 package org.rasa.mis.user.registration;
 
+import org.rasa.mis.user.registration.beans.Card;
 import org.rasa.mis.user.registration.beans.User;
 
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 /**
  * User Registration Service Implementation
@@ -21,8 +23,24 @@ public class ServiceImpl implements Service{
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
 
-            return Response.status(Response.Status.OK).entity(retrievedUser).build();
+            return Response.ok(retrievedUser).build();
         } catch (Exception e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    public Response getCard(int id) {
+        try {
+            Card card = ServiceUtils.getCardbyID(id);
+            if(card == null){
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            return Response.ok(card).build();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        } catch (SQLException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

@@ -21,6 +21,11 @@ public interface Service {
     @Path("/users/{param}")
     public Response getUser(@PathParam("param") int parameter);
 
+    @GET
+    @Produces("application/json")
+    @Path("/cards/{id}")
+    public Response getCard(@PathParam("id") int id);
+
     @POST
     @Consumes("application/json")
     @Produces("application/json")

@@ -10,6 +10,7 @@ public class User implements Serializable{
     private String lastName;
     private String email;
     private String address;
+    //private Date dateCreated;
 
     public int getId() {
         return id;
@@ -50,4 +51,13 @@ public class User implements Serializable{
     public void setAddress(String address) {
         this.address = address;
     }
+
+
+/*    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }*/
 }
